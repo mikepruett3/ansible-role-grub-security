@@ -81,6 +81,7 @@
       line: GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor"
   when:
     - grub2_passfile.stat.exists == False
+    - apparmor_status.rc == 0
     - enable_apparmor == True
     - ansible_os_family == 'Debian'
 

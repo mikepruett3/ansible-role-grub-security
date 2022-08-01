@@ -32,6 +32,20 @@
     - grub2_passfile.stat.exists == False
     - ansible_os_family == 'Debian'
 
+- name: "Configure Grub default menu configuration file (Debian)"
+  ansible.builtin.lineinfile:
+    dest: "{{ menufile }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    backup: yes
+  with_items:
+    - regexp: ^[\s]*CLASS=.*\b.*$
+      line: 'CLASS="--class gnu-linux --class gnu --class os --unrestricted"'
+  when:
+    - grub2_passfile.stat.exists == False
+    - ansible_os_family == 'Debian'
+
 - name: "Update Grub config with new password file (Debian)"
   shell: "{{ mkconfig }} -o {{ grubcfg }}"
   when:

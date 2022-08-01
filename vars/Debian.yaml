@@ -5,3 +5,4 @@ mkpasswd: /usr/bin/grub-mkpasswd-pbkdf2
 mkconfig: /usr/sbin/grub-mkconfig
 grubcfg: /boot/grub/grub.cfg
 passfile: /etc/grub.d/01_password
+menufile: /etc/grub.d/10_linux

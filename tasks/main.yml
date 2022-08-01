@@ -67,6 +67,7 @@
   register: apparmor_status
   when:
     - grub2_passfile.stat.exists == False
+    - enable_apparmor == True
     - ansible_os_family == 'Debian'
 
 - name: "Add AppArmor Settings to Grub defaults configuration file (Debian)"

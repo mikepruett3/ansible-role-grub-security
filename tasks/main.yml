@@ -41,7 +41,7 @@
     backup: yes
   with_items:
     - regexp: ^CLASS="--class gnu-linux --class gnu --class os"
-      line: 'CLASS="--class gnu-linux --class gnu --class os --unrestricted"'
+      line: CLASS="--class gnu-linux --class gnu --class os --unrestricted"
   when:
     - grub2_passfile.stat.exists == False
     - ansible_os_family == 'Debian'

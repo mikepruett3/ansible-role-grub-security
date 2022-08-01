@@ -1,0 +1,7 @@
+---
+# RedHat vars file for ansible-role-grub-security
+
+mkpasswd: /usr/bin/grub-mkpasswd-pbkdf2
+mkconfig: /usr/sbin/grub-mkconfig
+grubcfg: /boot/grub/grub.cfg
+passfile: /etc/grub.d/01_password

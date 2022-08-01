@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+
+cat << EOF
+set superusers="root"
+password_pbkdf2 root {{ grub_pass }}
+EOF

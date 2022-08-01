@@ -34,13 +34,13 @@
 
 - name: "Configure Grub default menu configuration file (Debian)"
   ansible.builtin.lineinfile:
-    dest: "{{ menufile }}"
+    path: "{{ menufile }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
     backup: yes
   with_items:
-    - regexp: ^[\s]*CLASS=.*\b.*$
+    - regexp: ^CLASS="--class gnu-linux --class gnu --class os"
       line: 'CLASS="--class gnu-linux --class gnu --class os --unrestricted"'
   when:
     - grub2_passfile.stat.exists == False

@@ -56,10 +56,32 @@
   with_items:
     - regexp: ^GRUB_TIMEOUT_STYLE=hidden
       line: '#GRUB_TIMEOUT_STYLE=hidden'
-    - regexp: ^GRUB_TIMEOUT=0
-      line: GRUB_TIMEOUT=10
+    - regexp: ^GRUB_TIMEOUT=
+      line: GRUB_TIMEOUT={{ grub_timeout }}
   when:
     - grub2_passfile.stat.exists == False
+    - ansible_os_family == 'Debian'
+
+- name: "Check if AppArmor is enabled (Debian)"
+  shell: apparmor_status --enabled
+  register: apparmor_status
+  when:
+    - grub2_passfile.stat.exists == False
+    - ansible_os_family == 'Debian'
+
+- name: "Add AppArmor Settings to Grub defaults configuration file (Debian)"
+  ansible.builtin.lineinfile:
+    path: "{{ grubdefaults }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    backup: yes
+  with_items:
+    - regexp: ^GRUB_CMDLINE_LINUX=
+      line: GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor"
+  when:
+    - grub2_passfile.stat.exists == False
+    - enable_apparmor == True
     - ansible_os_family == 'Debian'
 
 - name: "Update Grub config with new password file (Debian)"

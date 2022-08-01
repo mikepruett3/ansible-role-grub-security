@@ -46,6 +46,22 @@
     - grub2_passfile.stat.exists == False
     - ansible_os_family == 'Debian'
 
+- name: "Configure Grub defaults configuration file (Debian)"
+  ansible.builtin.lineinfile:
+    path: "{{ grubdefaults }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    backup: yes
+  with_items:
+    - regexp: ^GRUB_TIMEOUT_STYLE=hidden
+      line: '#GRUB_TIMEOUT_STYLE=hidden'
+    - regexp: ^GRUB_TIMEOUT=0
+      line: GRUB_TIMEOUT=10
+  when:
+    - grub2_passfile.stat.exists == False
+    - ansible_os_family == 'Debian'
+
 - name: "Update Grub config with new password file (Debian)"
   shell: "{{ mkconfig }} -o {{ grubcfg }}"
   when:

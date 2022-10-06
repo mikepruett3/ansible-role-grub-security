@@ -30,7 +30,7 @@
     mode: '0755'
   when:
     - grub2_passfile.stat.exists == False
-    - ansible_os_family == 'Debian'
+    - ansible_facts['os_family'] == 'Debian'
 
 - name: "Configure Grub default menu configuration file (Debian)"
   ansible.builtin.lineinfile:
@@ -44,7 +44,7 @@
       line: CLASS="--class gnu-linux --class gnu --class os --unrestricted"
   when:
     - grub2_passfile.stat.exists == False
-    - ansible_os_family == 'Debian'
+    - ansible_facts['os_family'] == 'Debian'
 
 - name: "Configure Grub defaults configuration file (Debian)"
   ansible.builtin.lineinfile:
@@ -60,7 +60,7 @@
       line: GRUB_TIMEOUT={{ grub_timeout }}
   when:
     - grub2_passfile.stat.exists == False
-    - ansible_os_family == 'Debian'
+    - ansible_facts['os_family'] == 'Debian'
 
 - name: "Check if AppArmor is enabled (Debian)"
   shell: apparmor_status --enabled
@@ -68,7 +68,7 @@
   when:
     - grub2_passfile.stat.exists == False
     - enable_apparmor == True
-    - ansible_os_family == 'Debian'
+    - ansible_facts['os_family'] == 'Debian'
 
 - name: "Add AppArmor Settings to Grub defaults configuration file (Debian)"
   ansible.builtin.lineinfile:
@@ -84,11 +84,11 @@
     - grub2_passfile.stat.exists == False
     - apparmor_status.rc == 0
     - enable_apparmor == True
-    - ansible_os_family == 'Debian'
+    - ansible_facts['os_family'] == 'Debian'
 
 - name: "Update Grub config with new password file (Debian)"
   shell: "{{ mkconfig }} -o {{ grubcfg }}"
   when:
     - grub2_passfile.stat.exists == False
-    - ansible_os_family == 'Debian'
+    - ansible_facts['os_family'] == 'Debian'
 

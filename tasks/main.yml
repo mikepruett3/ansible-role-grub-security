@@ -81,14 +81,14 @@
     - regexp: ^GRUB_CMDLINE_LINUX=
       line: GRUB_CMDLINE_LINUX="apparmor=1 security=apparmor"
   when:
+    - ansible_facts['os_family'] == 'Debian'
     - grub2_passfile.stat.exists == False
     - apparmor_status.rc == 0
     - enable_apparmor == True
-    - ansible_facts['os_family'] == 'Debian'
 
 - name: "Update Grub config with new password file (Debian)"
   shell: "{{ mkconfig }} -o {{ grubcfg }}"
   when:
-    - grub2_passfile.stat.exists == False
     - ansible_facts['os_family'] == 'Debian'
+    - grub2_passfile.stat.exists == False
 

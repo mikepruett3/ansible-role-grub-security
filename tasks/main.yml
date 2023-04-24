@@ -5,6 +5,12 @@
   ansible.builtin.include_vars:
     file: "{{ ansible_os_family }}.yaml"
 
+- name: "Include tasks from RedHat playbook"
+  ansible.builtin.include_tasks: RedHat.yaml
+  when:
+    - ansible_facts['os_family'] == 'RedHat'
+
 - name: "Include tasks from Debian playbook"
   ansible.builtin.include_tasks: Debian.yaml
-  when: ansible_facts['os_family'] == 'Debian'
+  when:
+    - ansible_facts['os_family'] == 'Debian'

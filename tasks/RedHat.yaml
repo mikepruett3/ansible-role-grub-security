@@ -2,7 +2,16 @@
 # RedHat tasks file for ansible-role-grub-security
 
 - name: "Ensure SELinux is not disabled in bootloader config"
-  ansible.builtin.shell: grubby --update-kernel ALL --remove-args 'selinux=0 enforcing=0'
+  ansible.builtin.shell:
+    cmd: grubby --update-kernel ALL --remove-args 'selinux=0 enforcing=0'
+
+- name: "Ensure Auditing is enabled in bootloader config"
+  ansible.builtin.shell:
+    cmd: grubby --update-kernel ALL --args 'audit=1'
+
+- name: "Ensure Audit Backlog Limit is configured in bootloader config"
+  ansible.builtin.shell:
+    cmd: grubby --update-kernel ALL --args 'audit_backlog_limit=8192'
 
 - name: "Set the appropriate permissions on the Grub config file"
   ansible.builtin.file:
